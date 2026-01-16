@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ORACIONES</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📝 ORACIONES</h2>
+
+<ul>
+    {% for item in items %}
+        <li>
+            <a href="/toggle/{{ item[0] }}">
+                <span class="{{ 'done' if item[2] else '' }}">
+                    {{ item[1] }}
+                </span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<form action="/add" method="post">
+    <input name="text" placeholder="New request" required>
+    <button>Add</button>
+</form>
+
+<p>Appunte sus oraciones aqui</p>
+
+</body>
+</html>
