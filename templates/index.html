@@ -4,23 +4,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ORACIONES</title>
     <style>
-        body {
-            font-family: sans-serif;
-            padding: 20px;
-            max-width: 500px;
-            margin: auto;
-        }
-        li {
-            margin: 10px 0;
-        }
-        .done {
-            text-decoration: line-through;
-            color: gray;
-        }
-        a {
-            text-decoration: none;
-            color: black;
-        }
+       body {
+    font-family: 'Helvetica', sans-serif;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background: #ece5dd;
+}
+h2 {
+    color: #075e54;
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+li {
+    background: white;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.done {
+    text-decoration: line-through;
+    color: gray;
+}
+input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+button {
+    padding: 10px 15px;
+    background: #25d366;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background: #128c7e;
+}
     </style>
 </head>
 <body>
@@ -29,22 +58,23 @@
 
 <ul>
     {% for item in items %}
-        <li>
-            <a href="/toggle/{{ item[0] }}">
-                <span class="{{ 'done' if item[2] else '' }}">
-                    {{ item[1] }}
-                </span>
-            </a>
-        </li>
+    <li style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="/toggle/{{ item['id'] }}">
+            <span class="{{ 'done' if item['done'] else '' }}">
+                {{ item['text'] }}
+            </span>
+        </a>
+        <a href="/delete/{{ item['id'] }}" style="color: red; margin-left: 10px;">🗑</a>
+    </li>
     {% endfor %}
 </ul>
 
 <form action="/add" method="post">
-    <input name="text" placeholder="New request" required>
+    <input name="text" placeholder="Nuevas Peticiones" required>
     <button>Add</button>
 </form>
 
-<p>Appunte sus oraciones aqui</p>
+<p>Apunte sus oraciones aqui</p>
 
 </body>
 </html>

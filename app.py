@@ -1,38 +1,37 @@
 from flask import Flask, render_template, request, redirect
-import sqlite3
+from supabase import create_client, Client
+import os
 
 app = Flask(__name__)
-DB = "requests.db"
 
-def init_db():
-    with sqlite3.connect(DB) as conn:
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS requests (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                text TEXT NOT NULL,
-                done INTEGER DEFAULT 0
-            )
-        """)
+# Replace with your Supabase credentials
+SUPABASE_URL = "https://xxxx.supabase.co"
+SUPABASE_KEY = "your-anon-key"
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @app.route("/")
 def index():
-    with sqlite3.connect(DB) as conn:
-        items = conn.execute("SELECT * FROM requests").fetchall()
+    items = supabase.table("requests").select("*").execute().data
     return render_template("index.html", items=items)
 
 @app.route("/add", methods=["POST"])
 def add():
     text = request.form["text"]
-    with sqlite3.connect(DB) as conn:
-        conn.execute("INSERT INTO requests (text) VALUES (?)", (text,))
+    supabase.table("requests").insert({"text": text}).execute()
     return redirect("/")
 
 @app.route("/toggle/<int:item_id>")
 def toggle(item_id):
-    with sqlite3.connect(DB) as conn:
-        conn.execute("UPDATE requests SET done = 1 - done WHERE id = ?", (item_id,))
+    # Get current done value
+    item = supabase.table("requests").select("*").eq("id", item_id).single().execute().data
+    new_done = not item['done']
+    supabase.table("requests").update({"done": new_done}).eq("id", item_id).execute()
+    return redirect("/")
+
+@app.route("/delete/<int:item_id>")
+def delete(item_id):
+    supabase.table("requests").delete().eq("id", item_id).execute()
     return redirect("/")
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
