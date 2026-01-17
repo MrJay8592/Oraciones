@@ -11,9 +11,9 @@ body {
 }
 
 .container {
-    max-width: 480px;
+    max-width: 520px;
     margin: auto;
-    padding-bottom: 80px;
+    padding-bottom: 90px;
 }
 
 .header {
@@ -24,47 +24,52 @@ body {
     text-align: center;
 }
 
-.intro {
-    text-align: center;
+.verse {
+    background: #dcf8c6;
+    color: #333;
     font-size: 0.85em;
-    color: #555;
+    padding: 10px;
     margin: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-style: italic;
 }
 
-.prayer-list {
+.board {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.prayer-card {
+.post {
     background: #ffffff;
-    margin: 8px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    margin: 8px 10px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #075e54;
 }
 
-.card-top {
+.post-header {
     font-size: 0.75em;
     color: #555;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
-.card-body {
+.post-content {
     font-size: 0.95em;
-    margin-bottom: 8px;
+    line-height: 1.4;
+    margin-bottom: 10px;
 }
 
-.card-actions {
+.post-actions {
     font-size: 0.75em;
     color: #555;
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
 }
 
-.card-actions a {
+.post-actions a {
     text-decoration: none;
 }
 
@@ -73,30 +78,30 @@ body {
     font-weight: bold;
 }
 
-.add-form {
+.composer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     background: #f0f0f0;
     padding: 8px;
     display: flex;
     gap: 5px;
 }
 
-.add-form input {
+.composer input {
     flex: 1;
     padding: 8px;
     border-radius: 20px;
     border: 1px solid #ccc;
 }
 
-.add-form button {
+.composer button {
     background: #075e54;
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 0 14px;
+    padding: 0 16px;
 }
 </style>
 
@@ -109,22 +114,22 @@ body {
         🛐 Peticiones de Oración
     </div>
 
-    <p class="intro">
-        Tome un momento para orar antes de continuar.
-    </p>
+    <div class="verse">
+        {{ verse }}
+    </div>
 
-    <ul class="prayer-list">
+    <ul class="board">
         {% for item in items %}
-        <li class="prayer-card">
-            <div class="card-top">
+        <li class="post">
+            <div class="post-header">
                 <span class="name">{{ item.name or 'Anónimo' }}</span>
             </div>
 
-            <div class="card-body">
+            <div class="post-content">
                 {{ item.text }}
             </div>
 
-            <div class="card-actions">
+            <div class="post-actions">
                 <a href="/pray/{{ item.id }}">🙏</a>
                 <span>{{ item.prayed_count or 0 }}</span>
                 <a href="/archive/{{ item.id }}" class="answered">🙌 Contestada</a>
@@ -133,10 +138,10 @@ body {
         {% endfor %}
     </ul>
 
-    <form class="add-form" action="/add" method="post">
+    <form class="composer" action="/add" method="post">
         <input name="name" placeholder="Nombre (opcional)">
         <input name="text" placeholder="Escriba su petición…" required>
-        <button>AÑADIR</button>
+        <button>Publicar</button>
     </form>
 
 </div>

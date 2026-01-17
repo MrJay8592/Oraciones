@@ -9,6 +9,15 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+import random
+
+PRAYER_VERSES = [
+    "“Clama a mí, y yo te responderé.” — Jeremías 33:3",
+    "“Perseverad en la oración, velando en ella con acción de gracias.” — Colosenses 4:2",
+    "“La oración eficaz del justo puede mucho.” — Santiago 5:16",
+    "“Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración y ruego, con acción de gracias.” — Filipenses 4:6",
+    "“Cercano está Jehová a todos los que le invocan.” — Salmos 145:18",
+]
 @app.route("/")
 def index():
     response = supabase.table("requests") \
@@ -17,8 +26,13 @@ def index():
         .order("id", desc=True) \
         .execute()
 
-    items = response.data or []
-    return render_template("index.html", items=items)
+    verse = random.choice(PRAYER_VERSES)
+
+    return render_template(
+        "index.html",
+        items=response.data or [],
+        verse=verse
+    )
 
 @app.route("/add", methods=["POST"])
 def add():
