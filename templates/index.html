@@ -1,80 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ORACIONES</title>
+    <meta charset="UTF-8">
+    <title>Peticiones de Oración</title>
     <style>
-       body {
-    font-family: 'Helvetica', sans-serif;
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    background: #ece5dd;
-}
-h2 {
-    color: #075e54;
-}
-ul {
-    list-style: none;
-    padding: 0;
-}
-li {
-    background: white;
-    margin: 10px 0;
-    padding: 10px 15px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.done {
-    text-decoration: line-through;
-    color: gray;
-}
-input {
-    width: 80%;
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    outline: none;
-}
-button {
-    padding: 10px 15px;
-    background: #25d366;
-    border: none;
-    border-radius: 20px;
-    color: white;
-    cursor: pointer;
-}
-button:hover {
-    background: #128c7e;
-}
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+        }
+        li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
-<h2>📝 ORACIONES</h2>
+<h2>📝 PETICIONES DE ORACIÓN</h2>
 
-<ul>
+<p style="font-style: italic; color: #555;">
+    Tome un momento para orar antes de continuar.
+</p>
+
+<ul style="padding: 0;">
     {% for item in items %}
-    <li style="display: flex; justify-content: space-between; align-items: center;">
-        <a href="/toggle/{{ item['id'] }}">
-            <span class="{{ 'done' if item['done'] else '' }}">
-                {{ item['text'] }}
-            </span>
-        </a>
-        <a href="/delete/{{ item['id'] }}" style="color: red; margin-left: 10px;">🗑</a>
+    <li style="background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:6px;">
+        <strong>{{ item.name or 'Anónimo' }}</strong><br>
+        {{ item.text }}
+
+        <div style="margin-top:8px;">
+            <a href="/pray/{{ item.id }}">🙏 Oré</a>
+            ({{ item.prayed_count or 0 }})
+            &nbsp;|&nbsp;
+            <a href="/archive/{{ item.id }}" style="color: green;">
+                🙌 Contestada
+            </a>
+        </div>
     </li>
     {% endfor %}
 </ul>
 
-<form action="/add" method="post">
-    <input name="text" placeholder="Nuevas Peticiones" required>
-    <button>Add</button>
+<form action="/add" method="post" style="margin-top:20px;">
+    <input name="name" placeholder="Nombre (opcional)" style="width:100%; margin-bottom:5px;">
+    <input name="text" placeholder="Escriba su petición aquí" required style="width:100%; margin-bottom:5px;">
+    <button>AÑADIR</button>
 </form>
-
-<p>Apunte sus oraciones aqui</p>
 
 </body>
 </html>
