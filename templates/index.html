@@ -4,53 +4,142 @@
     <meta charset="UTF-8">
     <title>Peticiones de Oración</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: auto;
-        }
-        li {
-            list-style: none;
-        }
-        a {
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ece5dd;
+}
+
+.container {
+    max-width: 480px;
+    margin: auto;
+    padding-bottom: 80px;
+}
+
+.header {
+    background: #075e54;
+    color: white;
+    padding: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.intro {
+    text-align: center;
+    font-size: 0.85em;
+    color: #555;
+    margin: 10px;
+}
+
+.prayer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prayer-card {
+    background: #ffffff;
+    margin: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.card-top {
+    font-size: 0.75em;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.card-body {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+}
+
+.card-actions {
+    font-size: 0.75em;
+    color: #555;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.card-actions a {
+    text-decoration: none;
+}
+
+.answered {
+    color: #128c7e;
+    font-weight: bold;
+}
+
+.add-form {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 480px;
+    background: #f0f0f0;
+    padding: 8px;
+    display: flex;
+    gap: 5px;
+}
+
+.add-form input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+.add-form button {
+    background: #075e54;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0 14px;
+}
+</style>
+
 </head>
 <body>
 
-<h2>📝 PETICIONES DE ORACIÓN</h2>
+<div class="container">
 
-<p style="font-style: italic; color: #555;">
-    Tome un momento para orar antes de continuar.
-</p>
+    <div class="header">
+        🛐 Peticiones de Oración
+    </div>
 
-<ul style="padding: 0;">
-    {% for item in items %}
-    <li style="background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:6px;">
-        <strong>{{ item.name or 'Anónimo' }}</strong><br>
-        {{ item.text }}
+    <p class="intro">
+        Tome un momento para orar antes de continuar.
+    </p>
 
-        <div style="margin-top:8px;">
-            <a href="/pray/{{ item.id }}">🙏 Oré</a>
-            ({{ item.prayed_count or 0 }})
-            &nbsp;|&nbsp;
-            <a href="/archive/{{ item.id }}" style="color: green;">
-                🙌 Contestada
-            </a>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
+    <ul class="prayer-list">
+        {% for item in items %}
+        <li class="prayer-card">
+            <div class="card-top">
+                <span class="name">{{ item.name or 'Anónimo' }}</span>
+            </div>
 
-<form action="/add" method="post" style="margin-top:20px;">
-    <input name="name" placeholder="Nombre (opcional)" style="width:100%; margin-bottom:5px;">
-    <input name="text" placeholder="Escriba su petición aquí" required style="width:100%; margin-bottom:5px;">
-    <button>AÑADIR</button>
-</form>
+            <div class="card-body">
+                {{ item.text }}
+            </div>
+
+            <div class="card-actions">
+                <a href="/pray/{{ item.id }}">🙏</a>
+                <span>{{ item.prayed_count or 0 }}</span>
+                <a href="/archive/{{ item.id }}" class="answered">🙌 Contestada</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <form class="add-form" action="/add" method="post">
+        <input name="name" placeholder="Nombre (opcional)">
+        <input name="text" placeholder="Escriba su petición…" required>
+        <button>AÑADIR</button>
+    </form>
+
+</div>
 
 </body>
 </html>
