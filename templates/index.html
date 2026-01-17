@@ -88,17 +88,21 @@ body {
     background: #f0f0f0;
     padding: 6px;
     display: flex;
+    flex-wrap: wrap;
     gap: 5px;
 }
 
 .composer input {
-    flex: 1;
+    flex: 1 1 60%;
+    max-width: 60%;
     padding: 8px;
     border-radius: 20px;
     border: 1px solid #ccc;
 }
 
 .composer button {
+    flex: 1 1 30%;
+    min-width: 60px;
     background: #075e54;
     color: white;
     border: none;
