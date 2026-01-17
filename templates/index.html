@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peticiones de Oración</title>
     <style>
 body {
@@ -11,8 +12,8 @@ body {
 }
 
 .container {
-    max-width: 520px;
-    margin: auto;
+    width: 100%;
+    margin: 0;
     padding-bottom: 90px;
 }
 
@@ -43,8 +44,8 @@ body {
 
 .post {
     background: #ffffff;
-    margin: 8px 10px;
-    padding: 12px;
+    margin: 6px;
+    padding: 10px;
     border-radius: 6px;
     border-left: 4px solid #075e54;
 }
@@ -59,6 +60,7 @@ body {
     font-size: 0.95em;
     line-height: 1.4;
     margin-bottom: 10px;
+    overflow-wrap: break-word;
 }
 
 .post-actions {
@@ -81,10 +83,10 @@ body {
 .composer {
     position: fixed;
     bottom: 0;
-    width: 100%;
-    max-width: 520px;
+    left: 0;
+    right: 0;
     background: #f0f0f0;
-    padding: 8px;
+    padding: 6px;
     display: flex;
     gap: 5px;
 }
